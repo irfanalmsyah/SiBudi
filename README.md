@@ -14,13 +14,13 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ### 1. Clone repository ini
 ```bash
-git clone
+git clone https://github.com/irfanalmsyah/projectBasisData.git
 ```
 ### 2. Masuk ke direktori repository
 ```bash
 cd projectBasisData
 ```
-### 3. Buat file `.env` dari file `.env.example`
+### 3. Buat file `.env` dari file [`.env.example`](.env.example)
 ```bash
 cp .env.example .env
 ```
@@ -36,7 +36,7 @@ docker-compose up
 - PostgreSQL jika ingin menggunakan database PostgreSQL
 ### 1. Clone repository ini
 ```bash 
-git clone 
+git clone https://github.com/irfanalmsyah/projectBasisData.git
 ```
 ### 2. Masuk ke direktori
 ```bash
