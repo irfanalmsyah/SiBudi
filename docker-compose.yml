@@ -9,6 +9,7 @@ services:
       POSTGRES_DB: ${DB_NAME}
 
   webserver:
+    networks_mode: bridge
     volumes:
       - static:/static
     env_file:
@@ -32,10 +33,3 @@ services:
 
 volumes:
   static:
-  
-networks:
-  default:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.16.57.0/24
