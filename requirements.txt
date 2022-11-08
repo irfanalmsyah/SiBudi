@@ -1,0 +1,5 @@
+gunicorn==20.1.0
+django==3.2.16
+django-mathfilters==1.0.0
+python-dotenv==0.21.0
+psycopg2-binary==2.9.2

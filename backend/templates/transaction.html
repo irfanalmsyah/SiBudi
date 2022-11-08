@@ -1,0 +1,118 @@
+{% load mathfilters %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <style>
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        p {
+          font-size: small;
+        }
+        /* Extra small devices (phones, 600px and down) */
+          @media only screen and (max-width: 600px) {
+            .tasklist {
+              width: 75%;
+            }
+          }
+          /* Small devices (portrait tablets and large phones, 600px and up) */
+          @media only screen and (min-width: 600px) {
+            .tasklist {
+              width: 60%;
+            }
+          }
+  
+          /* Extra large devices (large laptops and desktops, 1200px and up) */
+          @media only screen and (min-width: 1200px) {
+            .tasklist {
+              width: 50%;
+            }
+          }
+      </style>
+  </head>
+  <body>
+    <a href="/">back</a>
+    <form action="/transaction/{{ id }}/" method="POST">
+      {% csrf_token %}
+        
+      
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="type" value="income" id="income" {% if not isExpense %}checked{% endif %} required>
+          <label class="form-check-label" for="flexRadioDefault1">income</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="type" value="expense" id="expense" {% if isExpense %}checked{% endif %} required>
+          <label class="form-check-label" for="flexRadioDefault2">expense</label>
+        </div>
+      
+        <input type="text" value="{{ note }}" name = "note" >
+        <input type="number" value="{{ nominal|abs }}" name = "nominal" min="1" required>
+        <input type="date" value="{{ date|date:'Y-m-d' }}" name ="date">
+
+      
+        <label for="exampleFormControlSelect1">category</label>
+        <select class="form-control" id="exampleFormControlSelect1" name="category"> 
+          <option value="" selected>Choose a category..</option>
+            {%for cat in categories%} 
+              <option value="{{ cat.category_id }}"
+                {% if category.category_id  == cat.category_id %}
+                  selected
+                {% endif %}>
+                {{ cat.category_name }} 
+              </option>
+            {%endfor%}
+        </select>     
+      <button type="submit" class="btn btn-primary" name="method" value="update">Save</button>
+      <button type="submit" class="btn btn-danger" name="method" value="delete">Delete</button>
+    </form>
+    <br>
+    <!-- category -->
+      <div class="form-group" id="ifExpense" style="display: inline">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">manage category</button>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Manage Category</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row align-items-start pb-3">
+                        {% for cat in categories %}
+                          <form method="POST" action="/category/">
+                            {% csrf_token %}
+                            <input type="text" name="category_name" value="{{cat.category_name}}" required>
+                            <input type="hidden" name="category_id" value="{{cat.category_id}}">
+                            <button type="submit" name="method" value="update">edit</button>
+                            <button type="submit" name="method" value="delete">del</button>
+                          </form>
+                        {% endfor %}
+                        <div>
+                            <form method="POST" action="/category/">
+                                {% csrf_token %}
+                                <input type="text" name="category_name" placeholder="add category">
+                                <button type="submit" name="method" value="create">add</button>
+                            </form>
+                        </div>
+                  </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    <!-- end category -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+</body>
+</html>
