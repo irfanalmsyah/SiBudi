@@ -28,7 +28,7 @@ cp .env.example .env
 ```bash
 docker-compose up
 ```
-> server akan berjalan di `http://localhost`
+> server akan berjalan di `http://localhost:44444`
 
 # Instalasi tanpa Docker
 ## Prasyarat

@@ -16,7 +16,7 @@ services:
     build: .
     restart: always
     ports:
-      - "8000:8000"
+      - "44445:8000"
     depends_on:
       - db
   
@@ -26,7 +26,7 @@ services:
     volumes:
       - static:/static
     ports:
-      - "80:80"
+      - "44444:80"
     depends_on:
       - webserver
 
