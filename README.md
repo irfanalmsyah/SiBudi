@@ -1,12 +1,17 @@
 # Moneynote
-![website](https://img.shields.io/website-up-down-green-red/http/monip.org.svg website:http://34.101.175.204:44444/)
+![Website](https://img.shields.io/website?url=http%3A%2F%2F34.101.175.204%3A44444%2F)
+![](https://img.shields.io/badge/Django-092E20?style=flat&logo=django&logoColor=white)
+![](https://img.shields.io/badge/Bootstrap-563D7C?style=flat&&logo=bootstrap&logoColor=white)
+![](https://img.shields.io/badge/PostgreSQL-316192?style=flat&&logo=postgresql&logoColor=white)
+![](https://img.shields.io/badge/SQLite-07405E?style=flat&logo=sqlite&logoColor=white)
+![](https://img.shields.io/badge/Google_Cloud-4285F4?style=flat&&logo=google-cloud&logoColor=white)
 ## Deskripsi
  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 ## Anggota Kelompok
 |Nama|NIM|
 |--|--|
-|Andyana Lilmuttaqina Mafaza|G6401211002
-|Irfan Alamsyah|G6401211029|
+|[Andyana Lilmuttaqina Mafaza](https://github.com/andyanamafaza4)|G6401211002
+|[Irfan Alamsyah](https://github.com/irfanalmsyah)|G6401211029|
 |Andra Dihat Putra|G6401211053|
 
 ## Daftar Isi
