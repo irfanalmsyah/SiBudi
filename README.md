@@ -1,5 +1,5 @@
 # Moneynote
-
+![website](https://img.shields.io/website-up-down-green-red/http/monip.org.svg website:http://34.101.175.204:44444/)
 ## Deskripsi
  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 ## Anggota Kelompok
@@ -10,7 +10,7 @@
 |Andra Dihat Putra|G6401211053|
 
 ## Daftar Isi
-- [ERD](#entity-relationship-diagram)
+- [Entity Relationship Diagram](#entity-relationship-diagram)
 - [Instalasi](#instalasi)
 - [Tech Stack](#tech-stack)
 
