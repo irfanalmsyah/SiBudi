@@ -24,7 +24,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 # ERD
 ```mermaid
 erDiagram
-    User {
+    User  {
         int id PK
         varchar username
         varchar password
@@ -43,6 +43,9 @@ erDiagram
         int user_id FK
         varchar category_name
     }
+    User ||--o{ Transaction : memiliki
+    User ||--o{ Category : memiliki
+    Transaction }o--o| Category : memiliki
 ```
 
 # Instalasi menggunakan Docker
