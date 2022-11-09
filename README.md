@@ -8,6 +8,43 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 - [ ] user update and delete
 - [ ] front end
 
+# Tech Stack
+- [Django](https://www.djangoproject.com/)
+- [Bootstrap](https://getbootstrap.com/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [SQLite](https://www.sqlite.org/index.html)
+
+# Anggota Kelompok
+|Nama|NIM|
+|--|--|
+|Andyana Lilmuttaqina Mafaza|G6401211002
+|Irfan Alamsyah|G6401211029|
+|Andra Dihat Putra|G6401211053|
+
+# ERD
+```mermaid
+erDiagram
+    User {
+        int id PK
+        varchar username
+        varchar password
+        int saldo
+    }
+    Transaction {
+        int id PK
+        int user_id FK
+        int category_id FK
+        int nominal
+        date date
+        varchar note
+    }
+    Category {
+        int id PK
+        int user_id FK
+        varchar category_name
+    }
+```
+
 # Instalasi menggunakan Docker
 ## Prasyarat
 - [Docker](https://docs.docker.com/get-docker/)
