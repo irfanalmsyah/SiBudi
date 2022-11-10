@@ -76,6 +76,7 @@ def addtransaction(request):
     if request.method == 'POST':
         category_id = request.POST['category']
         note = request.POST['note']
+        date = request.POST['date']
         if request.POST['type'] == 'income':
             nominal = int(request.POST['nominal'])
         else:
@@ -86,9 +87,9 @@ def addtransaction(request):
 
         try:
             category = Category.objects.get(user=request.user, category_id=category_id)
-            transaction = Transaction(user=request.user, category=category, nominal=nominal, note=note)
+            transaction = Transaction(user=request.user, category=category, nominal=nominal, note=note, date=date)
         except:
-            transaction = Transaction(user=request.user, nominal=nominal, note=note)
+            transaction = Transaction(user=request.user, nominal=nominal, note=note, date=date)
 
         transaction.save()
         request.user.save()
@@ -107,13 +108,19 @@ def transactiondetails(request, id):
             if int(request.POST['nominal']) < 0:
                 return redirect(request.META.get('HTTP_REFERER'))
             transaction.note = request.POST['note']
-            request.user.saldo -= transaction.nominal
-            if request.POST['type'] == 'income':
-                transaction.nominal = int(request.POST['nominal'])
+            if request.user.saldo:
+                request.user.saldo -= transaction.nominal
+                if request.POST['type'] == 'income':
+                    transaction.nominal = int(request.POST['nominal'])
+                else:
+                    transaction.nominal = int(request.POST['nominal']) * -1
+                request.user.saldo += transaction.nominal
+                request.user.save()
             else:
-                transaction.nominal = int(request.POST['nominal']) * -1
-            request.user.saldo += transaction.nominal
-            request.user.save()
+                if request.POST['type'] == 'income':
+                    transaction.nominal = int(request.POST['nominal'])
+                else:
+                    transaction.nominal = int(request.POST['nominal']) * -1
 
             category_id = request.POST['category']
             try:
@@ -121,11 +128,13 @@ def transactiondetails(request, id):
                 transaction.category = category
             except:
                 transaction.category = None
+            transaction.date = request.POST['date']
             transaction.save()
         elif request.POST['method'] == 'delete':
-            request.user.saldo -= transaction.nominal
+            if request.user.saldo:
+                request.user.saldo -= transaction.nominal
+                request.user.save()
             transaction.delete()
-            request.user.save()
             return redirect('index')
     else:
         categories = Category.objects.filter(user=request.user)
