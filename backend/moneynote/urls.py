@@ -6,9 +6,9 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('login/', views.loginview, name='login'),
     path('logout/', views.logoutview, name='logout'),
-    path('transaction/', views.addtransaction, name='addtransaction'),
-    path('transaction/<int:id>/', views.transactiondetails, name='transaction'),
+    path('transaction/', views.transaction, name='transaction'),
+    path('transaction/<int:id>/', views.transactiondetails, name='transaction_detail'),
     path('category/', views.category, name='category'),
     path('register/', views.registerview, name='register'),
-    path('saldo/', views.saldo, name='saldo'),
+    path('wallet/', views.wallet, name='wallet'),
 ]

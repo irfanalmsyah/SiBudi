@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load mathfilters %}
+{% block title %}Category{% endblock title %}
+{% block content %}
+    {% include 'includes/navbar.html' with wallets='active' %}
+    <div class="container my-5">
+        <form action="/wallet/" method="POST">
+            {% csrf_token %}
+            <div class="row justify-content-center mb-3">
+                <div class="col-3">
+                    <input type="text" class="form-control" name="wallet_name" value="Cash" readonly required>
+                    <input type="hidden" name="wallet_id" value="{{ cash.wallet_id }}">
+                </div>
+                <div class="col-2">
+                    <input type="number" class="form-control" name="wallet_saldo" value="{{ cash.wallet_saldo }}">
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-outline-primary" type="submit" name="method" value="update"><i class="bi bi-pencil-fill"></i></button>
+                </div>
+            </div>
+        </form>
+        {% for wallet in wallets %}
+            <form action="/wallet/" method="POST">
+                {% csrf_token %}
+                <div class="row justify-content-center mb-3">
+                    <div class="col-3">
+                        <input type="text" class="form-control" name="wallet_name" value="{{ wallet }}" required>
+                        <input type="hidden" name="wallet_id" value="{{ wallet.wallet_id }}">
+                    </div>
+                    <div class="col-2">
+                        <input type="number" class="form-control" name="wallet_saldo" value="{{ wallet.wallet_saldo }}">
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-outline-primary" type="submit" name="method" value="update"><i class="bi bi-pencil-fill"></i></button>
+                        <button class="btn btn-outline-danger" type="submit" name="method" value="delete"><i class="bi bi-trash-fill"></i></button>
+                    </div>
+                </div>
+            </form>
+        {% endfor %}
+        <form action="/wallet/" method="POST">
+            {% csrf_token %}
+            <div class="row justify-content-center mb-3">
+                <div class="col-3">
+                    <input type="text" class="form-control" name="wallet_name" placeholder="Wallet Name" required>
+                </div>
+                <div class="col-2">
+                    <input type="number" class="form-control" name="wallet_saldo" placeholder="Wallet Saldo" required>
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-outline-success" type="submit" name="method" value="create"><i class="bi bi-plus-circle-fill"></i></button>
+                </div>
+            </div>
+    </div> 
+{% endblock content %}

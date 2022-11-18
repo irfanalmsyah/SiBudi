@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load mathfilters %}
+{% block title %}Transactions{% endblock title %}
+{% block content %}
+  {% include 'includes/navbar.html' with transaction='active' %}
+  <div class="container my-5">
+      <form action="/transaction/{{ id }}/" method="POST">
+        {% csrf_token %}
+          <div class="row justify-content-center mx-5 px-5">
+            <div class="col text-center">
+              <div class="btn-group mb-3" role="group" aria-label="Basic radio toggle button group">
+                  <input type="radio" class="btn-check" name="type" id="expense" value="expense" autocomplete="off" {% if isExpense %}checked{% endif %} required>
+                  <label class="btn btn-outline-primary" for="expense">Expense</label>
+                  <input type="radio" class="btn-check" name="type" id="income" value="income" autocomplete="off" {% if not isExpense %}checked{% endif %} required>
+                  <label class="btn btn-outline-primary" for="income">Income</label>
+              </div>
+              <div class="row mb-3">
+                <label for="note" class="col-sm-2 col-form-label">Note</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="note" name="note" value="{{ note }}">
+                </div>
+              </div>
+              <div class="row">
+                  <div class="col">
+                      <div class="row mb-3">
+                          <label for="nominal" class="col-sm-4 col-form-label ">Wallet</label>
+                          <div class="col-sm-8 ">
+                              <select class="form-control" id="exampleFormControlSelect1" name="wallet">
+                                    {% for wallet in wallets %} 
+                                      <option value="{{ wallet.wallet_id }}"
+                                        {% if trwallet.wallet_id == wallet.wallet_id %} selected {% endif %}
+                                      >
+                                        {{ wallet.wallet_name }} 
+                                      </option>
+                                    {%endfor%}
+                                </select>   
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col">
+                      <div class="row mb-3">
+                          <label for="nominal" class="col-sm-4 col-form-label ">Category</label>
+                          <div class="col-sm-8">
+                              <select class="form-control" id="exampleFormControlSelect1" name="category"> 
+                                  <option value="">Choose a category..</option>
+                                    {%for category in categories%} 
+                                      <option value="{{ category.category_id }}"
+                                        {% if trcategory.category_id == category.category_id %} selected {% endif %}
+                                      >
+                                        {{ category.category_name }} 
+                                      </option>
+                                    {%endfor%}
+                                </select>   
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col">
+                      <div class="row mb-3">
+                          <label for="nominal" class="col-sm-4 col-form-label ">Amount</label>
+                          <div class="col-sm-8 ">
+                              <input type="number" class="form-control" id="nominal" name="nominal" min="1" value="{{ nominal|abs }}" required>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col">
+                      <div class="row mb-3">
+                          <label for="nominal" class="col-sm-4 col-form-label ">Date</label>
+                          <div class="col-sm-8">
+                              <input type="date" name ="date" class="form-control" value="{{ date|date:'Y-m-d' }}" >
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col">
+                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                    <button type="submit" class="btn btn-outline-danger" name="method" value="delete">Delete</button>
+                    <button type="submit" class="btn btn-outline-primary">Save and Exit</button>
+                    <button type="submit" class="btn btn-primary" name="method" value="update">Save</button>
+                </div>
+              </div>
+            </div>
+          </div>
+      </form>
+  </div>
+{% endblock content %}

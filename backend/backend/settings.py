@@ -110,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LOGIN_URL = 'login'
-AUTH_USER_MODEL = 'moneynote.User'
+#AUTH_USER_MODEL = 'moneynote.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
