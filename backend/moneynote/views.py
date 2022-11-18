@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Transaction, Category, Wallet
-from django.contrib.auth.models import User
+from .models import Transaction, Category, Wallet, ShoppingList
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
@@ -101,7 +100,6 @@ def transaction(request):
 
 @login_required
 def transactiondetails(request, id):
-    
     try:
         transaction = Transaction.objects.get(id=id, user=request.user)
     except:
@@ -189,7 +187,6 @@ def category(request):
         }
         return render(request, 'category.html', context=context)
 
-    
 
 @login_required
 def wallet(request):
@@ -220,3 +217,44 @@ def wallet(request):
             'wallets': Wallet.objects.filter(user=request.user).exclude(wallet_id=cash.wallet_id),
         }
         return render(request, 'wallet.html', context=context)
+
+@login_required
+def shoppinglist(request):
+    if request.method == 'POST':
+        if request.POST['method'] == 'create':
+            shoppinglist = ShoppingList()
+            shoppinglist.user = request.user
+            shoppinglist.shoppinglist_note = request.POST['shoppinglist_note']
+            try:
+                request.POST['shoppinglist_isDone']
+                shoppinglist.shoppinglist_isDone = True
+            except:
+                shoppinglist.shoppinglist_isDone = False
+            try:
+                shoppinglist.category = Category.objects.get(category_id=request.POST['category'], user_id=request.user.id)
+            except:
+                shoppinglist.category = None
+            shoppinglist.save()
+        elif request.POST['method'] == 'delete':
+            shoppinglist = ShoppingList.objects.get(shoppinglist_id=request.POST['shoppinglist_id'], user_id=request.user.id)
+            shoppinglist.delete()
+        elif request.POST['method'] == 'update':
+            shoppinglist = ShoppingList.objects.get(shoppinglist_id=request.POST['shoppinglist_id'], user_id=request.user.id)
+            shoppinglist.shoppinglist_note = request.POST['shoppinglist_note']
+            try:
+                request.POST['shoppinglist_isDone']
+                shoppinglist.shoppinglist_isDone = True
+            except:
+                shoppinglist.shoppinglist_isDone = False
+            try:
+                shoppinglist.category = Category.objects.get(category_id=request.POST['category'], user_id=request.user.id)
+            except:
+                shoppinglist.category = None
+            shoppinglist.save()
+        return redirect(request.META.get('HTTP_REFERER'))
+    else:
+        context = {
+            'categories': Category.objects.filter(user=request.user),
+            'shoppinglists': ShoppingList.objects.filter(user=request.user),
+        }
+        return render(request, 'shoppinglist.html', context=context)

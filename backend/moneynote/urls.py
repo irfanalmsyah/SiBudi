@@ -11,4 +11,5 @@ urlpatterns = [
     path('category/', views.category, name='category'),
     path('register/', views.registerview, name='register'),
     path('wallet/', views.wallet, name='wallet'),
+    path('shoppinglist/', views.shoppinglist, name='shoppinglist'),
 ]
