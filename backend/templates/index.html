@@ -4,8 +4,8 @@
 {% block content %}
   {% include 'includes/navbar.html' with dashboard='active' %}
 
-  <div class="container-md my-3 ">
-    <div class="container ">
+  <div class="m-5">
+    <div class="mx-5">
       <div class="row align-items-center">
           <div class="col">
               <div class="card">
@@ -19,19 +19,29 @@
           <div class="col text-center">
               <div class="row align-items-center">
                   <div class="col">
-                      <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#transactionModal"><i class="bi bi-plus-lg"></i> Add Transaction</button>
+                      <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#transactionModal">
+                        <i class="bi bi-cash"></i> Add Transaction
+                      </button>
                   </div>
                   <div class="col">
-                      <button class="btn btn-outline-primary"><i class="bi bi-wallet2"></i> Manage Wallets </i></button>
+                      <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#walletModal" ><i class="bi bi-wallet2"></i> Add Wallet</button>
                   </div>
                   <div class="col">
-                      <button class="btn btn-outline-primary"><i class="bi bi-collection"></i> Manage Categories </button>
+                      <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#categoryModal"><i class="bi bi-collection"></i> Add Category </button>
                   </div>
+                  <div class="col">
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#shoppinglistModal"><i class="bi bi-list-check"></i> Add Shopping List </button>
+                </div>
               </div>
           </div>
       </div>
     </div>
   </div>
-  {% include 'includes/modals/transaction.html' %}
+  
+  {% include 'includes/modals/category.html' %}
+    {% include 'includes/modals/transaction.html' %}
+    {% include 'includes/modals/wallet.html' %}
+    {% include 'includes/modals/shoppinglist.html' %}
   {% include 'includes/transaction.html' %}
+  
 {% endblock content %}

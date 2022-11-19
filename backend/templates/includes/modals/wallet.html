@@ -1,0 +1,27 @@
+<div class="modal fade" id="walletModal" tabindex="-1" aria-labelledby="walletModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form action="/wallet/" method="POST">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="categoryModalLabel">Add Wallet</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+          <div class="modal-body">
+            <div class="row justify-content-center mb-3">
+                <div class="col-6">
+                    <input type="text" class="form-control" name="wallet_name" placeholder="New Wallet" required>
+                </div>
+                <div class="col-4">
+                  <input type="number" class="form-control" name="wallet_saldo" placeholder="Wallet Saldo" required>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" name="method" value="create">Save</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
