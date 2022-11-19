@@ -12,4 +12,5 @@ urlpatterns = [
     path('register/', views.registerview, name='register'),
     path('wallet/', views.wallet, name='wallet'),
     path('shoppinglist/', views.shoppinglist, name='shoppinglist'),
+    path('setting/', views.setting, name='setting'),
 ]

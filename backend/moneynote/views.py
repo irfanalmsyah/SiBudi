@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from .models import Transaction, Category, Wallet, ShoppingList
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.core.exceptions import PermissionDenied
 from django.db.models import Sum
 
@@ -43,6 +44,25 @@ def registerview(request):
             context = {'message': message}
             return render(request, 'register.html', context)
     return render(request, 'register.html')
+
+
+@login_required
+def setting(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('setting')
+        else:
+            message = ''
+            formerr = form.errors.as_data()
+            for i in formerr:
+                for j in formerr[i]:
+                    message += j.messages[0] + ' '
+            context = {'message': message}
+            return render(request, 'setting.html', context)
+    else:
+        return render(request, 'setting.html')
 
 
 def loginview(request):
@@ -258,3 +278,7 @@ def shoppinglist(request):
             'shoppinglists': ShoppingList.objects.filter(user=request.user),
         }
         return render(request, 'shoppinglist.html', context=context)
+
+
+
+
