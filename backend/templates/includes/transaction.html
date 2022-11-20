@@ -19,8 +19,8 @@
       {% for expense in expenses %}
         <tr class="transaction">
           <td><a href="{% url 'transaction_detail' expense.transaction_id %}">{{ expense.transaction_date|date:'d M Y' }}</a></td>
-          <td><a href="{% url 'transaction_detail' expense.transaction_id %}">{{ expense.transaction_wallet }}</a></td>
-          <td><a href="{% url 'transaction_detail' expense.transaction_id %}">{{ expense.transaction_category }}</a></td>
+          <td><a href="{% url 'transaction_detail' expense.transaction_id %}">{{ expense.wallet }}</a></td>
+          <td><a href="{% url 'transaction_detail' expense.transaction_id %}">{{ expense.category }}</a></td>
           <td><a href="{% url 'transaction_detail' expense.transaction_id %}">{{ expense.transaction_note }}</a></td>
           <td><a href="{% url 'transaction_detail' expense.transaction_id %}">Rp. {{ expense.transaction_nominal|abs }}</a></td>
         </tr>
@@ -50,8 +50,8 @@
         {% for income in incomes %}
           <tr class="transaction">
             <td><a href="{% url 'transaction_detail' income.transaction_id %}">{{ income.transaction_date|date:'d M Y' }}</a></td>
-            <td><a href="{% url 'transaction_detail' income.transaction_id %}">{{ income.transaction_wallet }}</a></td>
-            <td><a href="{% url 'transaction_detail' income.transaction_id %}">{{ income.transaction_category }}</a></td>
+            <td><a href="{% url 'transaction_detail' income.transaction_id %}">{{ income.wallet }}</a></td>
+            <td><a href="{% url 'transaction_detail' income.transaction_id %}">{{ income.category }}</a></td>
             <td><a href="{% url 'transaction_detail' income.transaction_id %}">{{ income.transaction_note }}</a></td>
             <td><a href="{% url 'transaction_detail' income.transaction_id %}">Rp. {{ income.transaction_nominal|abs }}</a></td>
           </tr>

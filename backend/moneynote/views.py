@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
 from .models import Transaction, Category, Wallet, ShoppingList
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
-from django.core.exceptions import PermissionDenied
 from django.db.models import Sum
+from django.http import Http404
+from django.utils.datastructures import MultiValueDictKeyError
 
 
 @login_required
@@ -17,33 +17,58 @@ def index(request):
         'wallets': Wallet.objects.filter(user=request.user),
         'saldo': Wallet.objects.filter(user=request.user).aggregate(total=Sum('wallet_saldo'))['total']
     }
-    return render(request, 'index.html', context=context)
+    return render(request, 'index.html', context)
 
 
 def registerview(request):
     if request.user.is_authenticated:
-        return redirect('/')
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            user = authenticate(request, username=form.cleaned_data['username'], password=form.cleaned_data['password1']) 
-            login(request, user)
-            wallet = Wallet()
-            wallet.user_id = user.id
-            wallet.wallet_name = 'Cash'
-            wallet.wallet_saldo = 0
-            wallet.save()
-            return redirect('index')
+        return redirect('index')
+    else:
+        if request.method == 'POST':
+            form = UserCreationForm(request.POST)
+            if form.is_valid():
+                form.save()
+                user = authenticate(request, username=form.cleaned_data['username'], password=form.cleaned_data['password1']) 
+                login(request, user)
+                wallet = Wallet()
+                wallet.user_id = user.id
+                wallet.wallet_name = 'Cash'
+                wallet.wallet_saldo = 0
+                wallet.save()
+                return redirect('index')
+            else:
+                message = ''
+                formerr = form.errors.as_data()
+                for i in formerr:
+                    for j in formerr[i]:
+                        message += j.messages[0] + ' '
+                context = {'message': message}
+                return render(request, 'register.html', context)
         else:
-            message = ''
-            formerr = form.errors.as_data()
-            for i in formerr:
-                for j in formerr[i]:
-                    message += j.messages[0] + ' '
-            context = {'message': message}
-            return render(request, 'register.html', context)
-    return render(request, 'register.html')
+            return render(request, 'register.html')
+
+
+def loginview(request):
+    if request.user.is_authenticated:
+        return redirect('index')
+    else:
+        if request.method == 'POST':
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(request, username=username, password=password)
+            if user:
+                login(request, user)
+                return redirect('index')
+            else:
+                context = {'message': 'Username atau password salah'}
+                return render(request, 'login.html', context)
+        else:
+            return render(request, 'login.html')
+
+
+def logoutview(request):
+    logout(request)
+    return redirect('login')
 
 
 @login_required
@@ -52,7 +77,8 @@ def setting(request):
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
             form.save()
-            return redirect('setting')
+            context = {'message': 'Password has been changed'}
+            return render(request, 'setting.html', context)
         else:
             message = ''
             formerr = form.errors.as_data()
@@ -64,32 +90,12 @@ def setting(request):
     else:
         return render(request, 'setting.html')
 
-
-def loginview(request):
-    if request.user.is_authenticated:
-        return redirect('/')
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user:
-            login(request, user)
-            return redirect('index')
-        else:
-            context = {'message': 'Username atau password salah'}
-            return render(request, 'login.html', context)
-    return render(request, 'login.html')
-
-
-def logoutview(request):
-    logout(request)
-    return redirect('index')
-
 @login_required
 def transaction(request):
     if request.method == 'POST':
         note = request.POST['note']
         category = request.POST['category']
+        print(category, "tttt")
         wallet = request.POST['wallet']
         date = request.POST['date']
         if request.POST['type'] == 'income':
@@ -115,23 +121,24 @@ def transaction(request):
             'categories': Category.objects.filter(user=request.user),
             'wallets': Wallet.objects.filter(user=request.user),
         }
-        return render(request, 'transaction.html', context=context)
+        return render(request, 'transaction.html', context)
 
 
 @login_required
-def transactiondetails(request, id):
+def transaction_detail(request, id):
     try:
         transaction = Transaction.objects.get(transaction_id=id, user=request.user)
-    except:
-        raise PermissionDenied
+    except Transaction.DoesNotExist:
+        raise Http404()
 
     if request.method == 'POST':
         if request.POST['method'] == 'update':
-            wallet_id = request.POST['wallet']
-            wallet = Wallet.objects.get(wallet_id=wallet_id)
-            wallet.wallet_saldo -= transaction.transaction_nominal
             transaction.transaction_note = request.POST['note']
             transaction.transaction_date = request.POST['date']
+            wallet_id = request.POST['wallet']
+            category_id = request.POST['category']
+            wallet = Wallet.objects.get(wallet_id=transaction.wallet_id)
+            wallet.wallet_saldo -= transaction.transaction_nominal
             if request.POST['type'] == 'income':
                 nominal = int(request.POST['nominal'])
             else:
@@ -139,19 +146,36 @@ def transactiondetails(request, id):
             transaction.transaction_nominal = nominal
             wallet.wallet_saldo += transaction.transaction_nominal
             wallet.save()
-            category_id = request.POST['category']
             try:
-                category = Category.objects.get(user=request.user, category_id=category_id)
-                transaction.category = category
-            except:
+                transaction.category = Category.objects.get(user=request.user, category_id=category_id)
+            except ValueError:
                 transaction.category = None
-            try:
-                wallet = Wallet.objects.get(user=request.user, wallet_id=wallet_id)
-                transaction.wallet = wallet
-            except:
-                transaction.wallet = None
+            wallet = Wallet.objects.get(user=request.user, wallet_id=wallet_id)
+            transaction.wallet = wallet
             transaction.save()
             return redirect(request.META.get('HTTP_REFERER'))
+        elif request.POST['method'] == 'updateandexit':
+            transaction.transaction_note = request.POST['note']
+            transaction.transaction_date = request.POST['date']
+            wallet_id = request.POST['wallet']
+            category_id = request.POST['category']
+            wallet = Wallet.objects.get(wallet_id=transaction.wallet_id)
+            wallet.wallet_saldo -= transaction.transaction_nominal
+            if request.POST['type'] == 'income':
+                nominal = int(request.POST['nominal'])
+            else:
+                nominal = int(request.POST['nominal']) * -1
+            transaction.transaction_nominal = nominal
+            wallet.wallet_saldo += transaction.transaction_nominal
+            wallet.save()
+            try:
+                transaction.category = Category.objects.get(user=request.user, category_id=category_id)
+            except ValueError:
+                transaction.category = None
+            wallet = Wallet.objects.get(user=request.user, wallet_id=wallet_id)
+            transaction.wallet = wallet
+            transaction.save()
+            return redirect('transaction')
         elif request.POST['method'] == 'delete':
             wallet = Wallet.objects.get(wallet_id=transaction.wallet_id)
             wallet.wallet_saldo -= transaction.transaction_nominal
@@ -176,7 +200,7 @@ def transactiondetails(request, id):
             'wallets': wallets,
             'isExpense': isExpense,
         }
-        return render(request, 'transactiondetails.html', context=context)
+        return render(request, 'transaction_detail.html', context)
 
 
 @login_required
@@ -203,7 +227,7 @@ def category(request):
         context = {
             'categories': Category.objects.filter(user=request.user),
         }
-        return render(request, 'category.html', context=context)
+        return render(request, 'category.html', context)
 
 
 @login_required
@@ -246,7 +270,7 @@ def shoppinglist(request):
             try:
                 request.POST['shoppinglist_isDone']
                 shoppinglist.shoppinglist_isDone = True
-            except:
+            except MultiValueDictKeyError:
                 shoppinglist.shoppinglist_isDone = False
             try:
                 shoppinglist.category = Category.objects.get(category_id=request.POST['category'], user_id=request.user.id)
@@ -262,11 +286,11 @@ def shoppinglist(request):
             try:
                 request.POST['shoppinglist_isDone']
                 shoppinglist.shoppinglist_isDone = True
-            except:
+            except MultiValueDictKeyError:
                 shoppinglist.shoppinglist_isDone = False
             try:
                 shoppinglist.category = Category.objects.get(category_id=request.POST['category'], user_id=request.user.id)
-            except:
+            except ValueError:
                 shoppinglist.category = None
             shoppinglist.save()
         return redirect(request.META.get('HTTP_REFERER'))
@@ -275,7 +299,7 @@ def shoppinglist(request):
             'categories': Category.objects.filter(user=request.user),
             'shoppinglists': ShoppingList.objects.filter(user=request.user),
         }
-        return render(request, 'shoppinglist.html', context=context)
+        return render(request, 'shoppinglist.html', context)
 
 
 
