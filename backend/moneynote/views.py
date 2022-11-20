@@ -11,8 +11,8 @@ from django.db.models import Sum
 @login_required
 def index(request):
     context = {
-        'incomes': Transaction.objects.filter(user=request.user, nominal__gt=0).order_by('-date'),
-        'expenses': Transaction.objects.filter(user=request.user, nominal__lt=0).order_by('-date'),
+        'incomes': Transaction.objects.filter(user=request.user, transaction_nominal__gt=0).order_by('-transaction_date'),
+        'expenses': Transaction.objects.filter(user=request.user, transaction_nominal__lt=0).order_by('-transaction_date'),
         'categories': Category.objects.filter(user=request.user),
         'wallets': Wallet.objects.filter(user=request.user),
         'saldo': Wallet.objects.filter(user=request.user).aggregate(total=Sum('wallet_saldo'))['total']
@@ -98,11 +98,11 @@ def transaction(request):
             nominal = int(request.POST['nominal']) * -1
         Transaction.objects.create(
             user=request.user,
-            note=note,
-            nominal=nominal,
+            transaction_note=note,
+            transaction_nominal=nominal,
+            transaction_date=date,
             category_id=category,
             wallet_id=wallet,
-            date=date
         )
         wallet = Wallet.objects.get(wallet_id=wallet)
         wallet.wallet_saldo += nominal
@@ -110,8 +110,8 @@ def transaction(request):
         return redirect(request.META.get('HTTP_REFERER'))
     else:
         context = {
-            'incomes': Transaction.objects.filter(user=request.user, nominal__gt=0).order_by('-date'),
-            'expenses': Transaction.objects.filter(user=request.user, nominal__lt=0).order_by('-date'),
+            'incomes': Transaction.objects.filter(user=request.user, transaction_nominal__gt=0).order_by('-transaction_date'),
+            'expenses': Transaction.objects.filter(user=request.user, transaction_nominal__lt=0).order_by('-transaction_date'),
             'categories': Category.objects.filter(user=request.user),
             'wallets': Wallet.objects.filter(user=request.user),
         }
@@ -121,7 +121,7 @@ def transaction(request):
 @login_required
 def transactiondetails(request, id):
     try:
-        transaction = Transaction.objects.get(id=id, user=request.user)
+        transaction = Transaction.objects.get(transaction_id=id, user=request.user)
     except:
         raise PermissionDenied
 
@@ -129,17 +129,15 @@ def transactiondetails(request, id):
         if request.POST['method'] == 'update':
             wallet_id = request.POST['wallet']
             wallet = Wallet.objects.get(wallet_id=wallet_id)
-            print(wallet.wallet_saldo)
-            wallet.wallet_saldo -= transaction.nominal
-            print(wallet.wallet_saldo)
-            transaction.note = request.POST['note']
-            transaction.date = request.POST['date']
+            wallet.wallet_saldo -= transaction.transaction_nominal
+            transaction.transaction_note = request.POST['note']
+            transaction.transaction_date = request.POST['date']
             if request.POST['type'] == 'income':
                 nominal = int(request.POST['nominal'])
             else:
                 nominal = int(request.POST['nominal']) * -1
-            transaction.nominal = nominal
-            wallet.wallet_saldo += transaction.nominal
+            transaction.transaction_nominal = nominal
+            wallet.wallet_saldo += transaction.transaction_nominal
             wallet.save()
             category_id = request.POST['category']
             try:
@@ -156,22 +154,22 @@ def transactiondetails(request, id):
             return redirect(request.META.get('HTTP_REFERER'))
         elif request.POST['method'] == 'delete':
             wallet = Wallet.objects.get(wallet_id=transaction.wallet_id)
-            wallet.wallet_saldo -= transaction.nominal
+            wallet.wallet_saldo -= transaction.transaction_nominal
             wallet.save()
             transaction.delete()
             return redirect('transaction')
     else:
         categories = Category.objects.filter(user=request.user)
         wallets = Wallet.objects.filter(user=request.user)
-        if transaction.nominal < 0:
+        if transaction.transaction_nominal < 0:
             isExpense = True
         else:
             isExpense = False
         context = {
-            'id': transaction.id,
-            'note': transaction.note,
-            'date': transaction.date,
-            'nominal': transaction.nominal,
+            'id': transaction.transaction_id,
+            'note': transaction.transaction_note,
+            'date': transaction.transaction_date,
+            'nominal': transaction.transaction_nominal,
             'trcategory': transaction.category,
             'trwallet': transaction.wallet,
             'categories': categories,

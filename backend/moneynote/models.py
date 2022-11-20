@@ -2,11 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Transaction(models.Model):
-    id = models.AutoField(primary_key=True)
+    transaction_id = models.AutoField(primary_key=True)
+    transaction_note = models.CharField(max_length=255, null=True, blank=True)
+    transaction_nominal = models.IntegerField()
+    transaction_date = models.DateField(null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateField(null=True, blank=True)
-    note = models.CharField(max_length=255, null=True, blank=True)
-    nominal = models.IntegerField()
     category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True, blank=True)
     wallet = models.ForeignKey('Wallet', on_delete=models.PROTECT , null=False, blank=False)
 
