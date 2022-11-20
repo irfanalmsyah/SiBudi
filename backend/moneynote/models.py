@@ -11,7 +11,7 @@ class Transaction(models.Model):
     wallet = models.ForeignKey('Wallet', on_delete=models.PROTECT , null=False, blank=False)
 
     def __str__(self):
-        return self.note
+        return self.transaction_note
 
 
 class Category(models.Model):
@@ -40,4 +40,4 @@ class ShoppingList(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.note
+        return self.shoppinglist_note
