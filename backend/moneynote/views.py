@@ -95,7 +95,6 @@ def transaction(request):
     if request.method == 'POST':
         note = request.POST['note']
         category = request.POST['category']
-        print(category, "tttt")
         wallet = request.POST['wallet']
         date = request.POST['date']
         if request.POST['type'] == 'income':

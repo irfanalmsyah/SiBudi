@@ -27,7 +27,7 @@ if os.getenv('DEBUG') == 'False':
             'NAME': os.getenv('DB_NAME'),
             'USER': os.getenv('DB_USER'),
             'PASSWORD': os.getenv('DB_PASSWORD'),
-            'HOST': 'db',
+            'HOST': 'database',
             'PORT': 5432,
         }
     }
@@ -46,11 +46,11 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+    #'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.messages',
+    #'django.contrib.messages',
     'django.contrib.staticfiles',
     'moneynote.apps.MoneynoteConfig',
     'mathfilters',
