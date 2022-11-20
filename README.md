@@ -20,31 +20,10 @@
 - [Tech Stack](#tech-stack)
 
 # Entity Relationship Diagram
-```mermaid
-erDiagram
-    User  {
-        int id PK
-        varchar username
-        varchar password
-        int saldo
-    }
-    Transaction {
-        int id PK
-        int user_id FK
-        int category_id FK
-        int nominal
-        date date
-        varchar note
-    }
-    Category {
-        int id PK
-        int user_id FK
-        varchar category_name
-    }
-    User ||--o{ Transaction : memiliki
-    User ||--o{ Category : memiliki
-    Transaction }o--o| Category : memiliki
-```
+![ERD](static/entityrelationaldiagram.png)
+
+# Schematic Diagram
+![Schematic Diagram](static/schematicdiagram.png)
 
 # Instalasi
 <details>
@@ -107,11 +86,7 @@ cd backend
 ```bash
 python3 manage.py makemigrations && python3 manage.py migrate
 ```
-### 7. Buat superuser
-```bash
-python3 manage.py createsuperuser
-```
-## 8. Jalankan server
+## 7. Jalankan server
 ```bash
 python3 manage.py runserver
 ```
