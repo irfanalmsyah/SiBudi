@@ -1,7 +1,37 @@
 {% load mathfilters %}
 <div class="m-5">
-<div class="row">
-<div class="col me-3">
+  <div class="dropdown mb-3">
+    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+      Filter By Category
+    </button>
+    <ul class="dropdown-menu">
+      <li><input checked class="form-check-input" id="all" type="checkbox" onchange=checkall() >Select All</li>
+      <li> &ensp;<input checked class="form-check-input categories" type="checkbox" value="None" onchange=getCheckedBoxes("categories")>No Category</li>
+      {% for category in categories %}
+        <li> &ensp;<input checked class="form-check-input categories" type="checkbox" value="{{ category.category_id }}" onchange=getCheckedBoxes("categories")>{{category.category_name}}</li>
+      {% endfor %}
+      <li><hr class="dropdown-divider"></li>
+      <li><a class="btn btn-primary" href="/category/">Manage Category</a></li>
+    </ul>
+  </div>
+
+  <div class="dropdown mb-3">
+    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+      Filter By Wallet
+    </button>
+    <ul class="dropdown-menu">
+      <li><input checked class="form-check-input" id="all" type="checkbox" onchange=checkall() >Select All</li>
+      <li> &ensp;<input checked class="form-check-input categories" type="checkbox" value="None" onchange=getCheckedBoxes("categories")>No Category</li>
+      {% for category in categories %}
+        <li> &ensp;<input checked class="form-check-input categories" type="checkbox" value="{{ category.category_id }}" onchange=getCheckedBoxes("categories")>{{category.category_name}}</li>
+      {% endfor %}
+      <li><hr class="dropdown-divider"></li>
+      <li><a class="btn btn-primary" href="/category/">Manage Category</a></li>
+    </ul>
+  </div>
+  
+  <div class="row">
+    <div class="col me-3">
 <h2>Expenses</h2>
 <hr>
 {% if expenses %}
@@ -17,10 +47,10 @@
       </thead>
       <tbody>
       {% for expense in expenses %}
-        <tr class="transaction">
+        <tr class="transaction {{ expense.category_id }}">
           <td><a href="{% url 'transaction_detail' expense.transaction_id %}">{{ expense.transaction_date|date:'d M Y' }}</a></td>
           <td><a href="{% url 'transaction_detail' expense.transaction_id %}">{{ expense.wallet }}</a></td>
-          <td><a href="{% url 'transaction_detail' expense.transaction_id %}">{{ expense.category }}</a></td>
+          <td><a href="{% url 'transaction_detail' expense.transaction_id %}">{% if expense.category %}{{ expense.category }}{% else %}No Category{% endif %}</a></td>
           <td><a href="{% url 'transaction_detail' expense.transaction_id %}">{{ expense.transaction_note }}</a></td>
           <td><a href="{% url 'transaction_detail' expense.transaction_id %}">Rp. {{ expense.transaction_nominal|abs }}</a></td>
         </tr>
@@ -48,10 +78,10 @@
       </thead>
       <tbody>
         {% for income in incomes %}
-          <tr class="transaction">
+          <tr class="transaction {{ income.category_id }}">
             <td><a href="{% url 'transaction_detail' income.transaction_id %}">{{ income.transaction_date|date:'d M Y' }}</a></td>
             <td><a href="{% url 'transaction_detail' income.transaction_id %}">{{ income.wallet }}</a></td>
-            <td><a href="{% url 'transaction_detail' income.transaction_id %}">{{ income.category }}</a></td>
+            <td><a href="{% url 'transaction_detail' income.transaction_id %}">{% if income.category %}{{ income.category }}{% else %}No Category{% endif %}</a></td>
             <td><a href="{% url 'transaction_detail' income.transaction_id %}">{{ income.transaction_note }}</a></td>
             <td><a href="{% url 'transaction_detail' income.transaction_id %}">Rp. {{ income.transaction_nominal|abs }}</a></td>
           </tr>
