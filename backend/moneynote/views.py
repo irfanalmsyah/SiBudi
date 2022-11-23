@@ -15,7 +15,8 @@ def index(request):
         'expenses': Transaction.objects.filter(user=request.user, transaction_nominal__lt=0).order_by('-transaction_date'),
         'categories': Category.objects.filter(user=request.user),
         'wallets': Wallet.objects.filter(user=request.user),
-        'saldo': Wallet.objects.filter(user=request.user).aggregate(total=Sum('wallet_saldo'))['total']
+        'saldo': Wallet.objects.filter(user=request.user).aggregate(total=Sum('wallet_saldo'))['total'],
+        'shoppinglists': ShoppingList.objects.filter(user=request.user)
     }
     return render(request, 'index.html', context)
 
