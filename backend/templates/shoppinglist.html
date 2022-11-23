@@ -12,7 +12,7 @@
                         <input type="text" class="form-control" name="shoppinglist_note" value="{{ shoppinglist.shoppinglist_note }}" required>
                         <input type="hidden" name="shoppinglist_id" value="{{ shoppinglist.shoppinglist_id }}">
                     </div>
-                    <div class="col-2">
+                    <div class="col-3">
                         <select class="form-control" id="exampleFormControlSelect1" name="category"> 
                             <option value="">Choose a category..</option>
                             {%for category in categories%} 
@@ -24,7 +24,7 @@
                             {%endfor%}
                         </select>
                     </div>
-                    <div class="col-2">
+                    <div class="col-3">
                         <input type="checkbox" name="shoppinglist_isDone" class="btn-check" id="btn-check{{ shoppinglist.shoppinglist_id }}" autocomplete="off" {% if shoppinglist.shoppinglist_isDone %} checked {% endif %}>
                         <label class="btn btn-outline-primary" for="btn-check{{ shoppinglist.shoppinglist_id }}"><i class="bi bi-check-lg"></i></label>
                         <button class="btn btn-outline-primary" type="submit" name="method" value="update"><i class="bi bi-pencil-fill"></i></button>
