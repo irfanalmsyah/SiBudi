@@ -6,7 +6,7 @@
 ![](https://img.shields.io/badge/SQLite-07405E?style=flat&logo=sqlite&logoColor=white)
 ![](https://img.shields.io/badge/Google_Cloud-4285F4?style=flat&&logo=google-cloud&logoColor=white)
 ## Deskripsi
- SiBudi merupakan sebuah website pencatatan keuangan yang dibuat dalam rangka menyelesaikan permasalahan sulitnya proses pencatatan keuangan. SiBudi memiliki berbagai fitur yang dapat dimanfaatkan seperti mencatat pemasukan dan pengeluaran, mengkategorikan jenis-jenis pengeluaran dan pemasukan agar menjadi lebih personal serta memungkinkan kita juga untuk membuat lebih dari satu wallet yang bisa kita manajemen sesuai dengan peruntukannya pada masing-masing wallet. SiBudi dapat diakses dan digunakan pada perangkat pengguna cukup dengan mendaftar langsung pada website SiBudi dan kemudian pengguna akan dapat langsung menggunakan semua fitur-fitur yang ada.
+ SiBudi merupakan sebuah website pencatatan keuangan yang dibuat dalam rangka menyelesaikan permasalahan sulitnya proses pencatatan keuangan. SiBudi memiliki berbagai fitur yang dapat dimanfaatkan seperti mencatat pemasukan dan pengeluaran, mengkategorikan jenis-jenis pengeluaran dan pemasukan agar menjadi lebih personal serta memungkinkan kita juga untuk membuat lebih dari satu wallet yang bisa kita manajemen sesuai dengan peruntukannya pada masing-masing wallet. 
 ## Anggota Kelompok
 |Nama|NIM|
 |--|--|
