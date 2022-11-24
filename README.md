@@ -1,4 +1,4 @@
-# Moneynote
+# SiBudi (Sistem Buku Keuangan Digital)
 ![Website](https://img.shields.io/website?url=http%3A%2F%2F34.101.175.204%3A44444%2F)
 ![](https://img.shields.io/badge/Django-092E20?style=flat&logo=django&logoColor=white)
 ![](https://img.shields.io/badge/Bootstrap-563D7C?style=flat&&logo=bootstrap&logoColor=white)
@@ -6,13 +6,13 @@
 ![](https://img.shields.io/badge/SQLite-07405E?style=flat&logo=sqlite&logoColor=white)
 ![](https://img.shields.io/badge/Google_Cloud-4285F4?style=flat&&logo=google-cloud&logoColor=white)
 ## Deskripsi
- Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+ SiBudi merupakan sebuah website pencatatan keuangan yang dibuat dalam rangka menyelesaikan permasalahan sulitnya proses pencatatan keuangan. SiBudi memiliki berbagai fitur yang dapat dimanfaatkan seperti mencatat pemasukan dan pengeluaran, mengkategorikan jenis-jenis pengeluaran dan pemasukan agar menjadi lebih personal serta memungkinkan kita juga untuk membuat lebih dari satu wallet yang bisa kita manajemen sesuai dengan peruntukannya pada masing-masing wallet. SiBudi dapat diakses dan digunakan pada perangkat pengguna cukup dengan mendaftar langsung pada website SiBudi dan kemudian pengguna akan dapat langsung menggunakan semua fitur-fitur yang ada.
 ## Anggota Kelompok
 |Nama|NIM|
 |--|--|
 |[Andyana Lilmuttaqina Mafaza](https://github.com/andyanamafaza4)|G6401211002
 |[Irfan Alamsyah](https://github.com/irfanalmsyah)|G6401211029|
-|Andra Dihat Putra|G6401211053|
+|[Andra Dihat Putra](https://github.com/andradp)|G6401211053|
 
 ## Daftar Isi
 - [Entity Relationship Diagram](#entity-relationship-diagram)
