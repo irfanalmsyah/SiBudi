@@ -13,7 +13,7 @@
                         <input type="hidden" name="shoppinglist_id" value="{{ shoppinglist.shoppinglist_id }}">
                     </div>
                     <div class="col-3">
-                        <select class="form-control" id="exampleFormControlSelect1" name="category"> 
+                        <select class="form-control" id="exampleFormControlSelect1" name="category" required> 
                             <option value="">Choose a category..</option>
                             {%for category in categories%} 
                                 <option value="{{ category.category_id }}"
@@ -40,7 +40,7 @@
                     <input type="text" class="form-control" name="shoppinglist_note" placeholder="Note" required>
                 </div>
                 <div class="col-3">
-                    <select class="form-control" id="exampleFormControlSelect1" name="category"> 
+                    <select class="form-control" id="exampleFormControlSelect1" name="category" required> 
                         <option value="">Choose a category..</option>
                         {%for category in categories%} 
                             <option value="{{ category.category_id }}">
@@ -52,7 +52,7 @@
                 <div class="col-3">
                     <input type="checkbox" name="shoppinglist_isDone" class="btn-check" id="btn-check" autocomplete="off" >
                     <label class="btn btn-outline-primary" for="btn-check"><i class="bi bi-check-lg"></i></label>
-                    <button class="btn btn-outline-primary" type="submit" name="method" value="create"><i class="bi bi-plus-circle-fill"></i></button>
+                    <button class="btn btn-outline-primary" type="submit" name="method" value="create"><i class="bi bi-plus-circle-fill" ></i></button>
                 </div>
             </div>
     </div> 
