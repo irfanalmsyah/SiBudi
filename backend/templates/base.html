@@ -24,63 +24,110 @@
     {% endblock content %}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
     <script>
-      function checkall() {
-        let checkboxes = document.getElementsByClassName("categories");
-        let allcheckbox = document.getElementById("all");
-        let all = document.getElementsByClassName("transaction");
-        if (allcheckbox.checked == true) {
-          for (i = 0; i < checkboxes.length; i++) {
-            checkboxes[i].checked = true;
-          }
-          for (i = 0; i < all.length; i++) {
-            all[i].style.display = "";
-          }
-        } else {
-          for (i = 0; i < checkboxes.length; i++) {
-            checkboxes[i].checked = false;
-          }
-          for (i = 0; i < all.length; i++) {
-            all[i].style.display = "none";
-          }
-        }
-      }
-
-      function getCheckedBoxes(chkboxName) {
-        var checkboxes = document.getElementsByClassName(chkboxName);
-
-        for (var i=0; i<checkboxes.length; i++) {
-           if (checkboxes[i].checked) {
-              foo = document.getElementsByClassName(checkboxes[i].value);
-              for (var j=0; j<foo.length; j++) {
-                foo[j].style.display = "";
-              }
-              checkboxesChecked += checkboxes[i].value + " ";
-           } else {
-              foo = document.getElementsByClassName(checkboxes[i].value);
-              for (var j=0; j<foo.length; j++) {
-                foo[j].style.display = "none";
-              }
-           }
-        }
-      }
-      var checkboxes = document.getElementsByClassName("categories");
-      var checkboxesChecked = "";
-      let all = document.getElementsByClassName("transaction");
-
-      for (var i=0; i<checkboxes.length; i++) {
-          if (checkboxes[i].checked) {
-            foo = document.getElementsByClassName(checkboxes[i].value);
-            for (var j=0; j<foo.length; j++) {
-              foo[j].style.display = "";
+      //both function not optimized
+      function checkall(chkboxName) {
+        let checkboxesCategory = document.getElementsByClassName("category");
+        let checkboxesWallet = document.getElementsByClassName("wallet");
+        let allCategoryCheckbox = document.getElementById("all-category");
+        let allWalletCheckbox = document.getElementById("all-wallet");
+        let alltransaction = document.getElementsByClassName("transaction");
+        if (chkboxName == "category") {
+          if (allCategoryCheckbox.checked) {
+            
+            for (let i = 0; i < checkboxesCategory.length; i++) {
+              checkboxesCategory[i].checked = true;
             }
-            checkboxesChecked += checkboxes[i].value + " ";
+            for (let i = 0; i < checkboxesWallet.length; i++) {
+              foo = document.getElementsByClassName("wallet-" + checkboxesWallet[i].value);
+              if (checkboxesWallet[i].checked) {
+                for (let j = 0; j < foo.length; j++) {
+                  
+                  foo[j].style.display = "";
+                }
+              } else {
+                for (let j = 0; j < foo.length; j++) {
+                  foo[j].style.display = "none";
+                }
+              }  
+            }
           } else {
-            foo = document.getElementsByClassName(checkboxes[i].value);
-            for (var j=0; j<foo.length; j++) {
-              foo[j].style.display = "none";
+            for (let i = 0; i < checkboxesCategory.length; i++) {
+              checkboxesCategory[i].checked = false;
+            }
+            for (let i = 0; i < alltransaction.length; i++) {
+              alltransaction[i].style.display = "none";
             }
           }
+        } else if (chkboxName == "wallet") {
+          if (allWalletCheckbox.checked) {
+            for (let i = 0; i < checkboxesWallet.length; i++) {
+              checkboxesWallet[i].checked = true;
+            }
+            for (let i = 0; i < checkboxesCategory.length; i++) {
+              foo = document.getElementsByClassName("category-" + checkboxesCategory[i].value);
+              if (checkboxesCategory[i].checked) {
+                for (let j = 0; j < foo.length; j++) {
+                  foo[j].style.display = "";
+                }
+              } else {
+                for (let j = 0; j < foo.length; j++) {
+                  foo[j].style.display = "none";
+                }
+              }  
+            }
+          } else {
+            for (let i = 0; i < checkboxesWallet.length; i++) {
+              checkboxesWallet[i].checked = false;
+            }
+            for (let i = 0; i < alltransaction.length; i++) {
+              alltransaction[i].style.display = "none";
+            }
+          }
+        }
       }
-    </script>
+      function getCheckedBoxes() {
+        let checkboxesCategory = document.getElementsByClassName("category");
+        let checkboxesWallet = document.getElementsByClassName("wallet");
+        let countCategoryChecked = 0;
+        let countWalletChecked = 0;
+        for (let i = 0; i < checkboxesCategory.length; i++) {
+          if (checkboxesCategory[i].checked == true) {
+            countCategoryChecked++;
+          }
+        }
+        for (let j = 0; j < checkboxesWallet.length; j++) {
+          if (checkboxesWallet[j].checked == true) {
+            countWalletChecked++;
+          }
+        }
+        if (countCategoryChecked == checkboxesCategory.length) {
+          document.getElementById("all-category").checked = true;
+        } else {
+          document.getElementById("all-category").checked = false;
+        }
+        if (countWalletChecked == checkboxesWallet.length) {
+          document.getElementById("all-wallet").checked = true;
+        } else {
+          document.getElementById("all-wallet").checked = false;
+        }
+        
+        for (let i = 0; i < checkboxesCategory.length; i++) {
+          for (let j = 0; j < checkboxesWallet.length; j++) {
+            if (checkboxesCategory[i].checked && checkboxesWallet[j].checked) {
+              foo = document.getElementsByClassName("category-" + checkboxesCategory[i].value + " wallet-" + checkboxesWallet[j].value);
+              for (let k = 0; k < foo.length; k++) {
+                foo[k].style.display = "";
+              }
+            } else {
+              foo = document.getElementsByClassName("category-" + checkboxesCategory[i].value + " wallet-" + checkboxesWallet[j].value);
+              for (let k = 0; k < foo.length; k++) {
+                foo[k].style.display = "none";
+              }
+            }
+          }
+        }
+      }
+      getCheckedBoxes();
+      </script>
   </body>
 </html>
