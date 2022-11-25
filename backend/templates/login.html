@@ -10,7 +10,7 @@
                 something goes Here
             </div>
             <div class="col text-center shadow-lg p-3 mb-5 bg-body rounded">
-                <form action="/login/" method="POST">
+                <form action="{% url 'login' %}" method="POST">
                     {% csrf_token %}
                     <h1 class="mt-5">Login</h1>
                     <div class="row justify-content-center my-4">
@@ -32,7 +32,7 @@
                     </div>
                     <div class="row justify-content-center mb-5">
                         <div class="col-8">
-                            No account? <a href="/register/" class="text-decoration-none fw-bold">Sign Up</a>
+                            No account? <a href="{% url 'register' %}" class="text-decoration-none fw-bold">Sign Up</a>
                         </div>
                         <div class="text-center mt-2">
                           {{message}}

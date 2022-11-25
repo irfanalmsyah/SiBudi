@@ -1,7 +1,7 @@
 <div class="modal fade" id="shoppinglistModal" tabindex="-1" aria-labelledby="shoppinglistModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
-        <form action="/shoppinglist/" method="POST">
+        <form action="{% url 'shoppinglist' %}" method="POST">
           {% csrf_token %}
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="shoppinglistModalLabel">Add Shopping List</h1>

@@ -11,7 +11,7 @@
         <li> &ensp;<input checked class="form-check-input category" type="checkbox" value="{{ category.category_id }}" onchange=getCheckedBoxes()>{{category.category_name}}</li>
       {% endfor %}
       <li><hr class="dropdown-divider"></li>
-      <li><a class="btn btn-primary" href="/category/">Manage Category</a></li>
+      <li><a class="btn btn-primary" href="{% url 'category' %}">Manage Category</a></li>
     </ul>
   </div>
 
@@ -25,7 +25,7 @@
         <li> &ensp;<input checked class="form-check-input wallet" type="checkbox" value="{{ wallet.wallet_id }}" onchange=getCheckedBoxes()>{{wallet.wallet_name}}</li>
       {% endfor %}
       <li><hr class="dropdown-divider"></li>
-      <li><a class="btn btn-primary" href="/category/">Manage Wallet</a></li>
+      <li><a class="btn btn-primary" href="{% url 'wallet' %}">Manage Wallet</a></li>
     </ul>
   </div>
   

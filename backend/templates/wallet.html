@@ -4,7 +4,7 @@
 {% block content %}
     {% include 'includes/navbar.html' with wallets='active' %}
     <div class="container my-5">
-        <form action="/wallet/" method="POST">
+        <form action="{% url 'wallet' %}" method="POST">
             {% csrf_token %}
             <div class="row justify-content-center mb-3">
                 <div class="col-3">
@@ -20,7 +20,7 @@
             </div>
         </form>
         {% for wallet in wallets %}
-            <form action="/wallet/" method="POST">
+            <form action="{% url 'wallet' %}" method="POST">
                 {% csrf_token %}
                 <div class="row justify-content-center mb-3">
                     <div class="col-3">
@@ -37,7 +37,7 @@
                 </div>
             </form>
         {% endfor %}
-        <form action="/wallet/" method="POST">
+        <form action="{% url 'wallet' %}" method="POST">
             {% csrf_token %}
             <div class="row justify-content-center mb-3">
                 <div class="col-3">

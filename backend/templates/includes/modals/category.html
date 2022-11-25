@@ -1,7 +1,7 @@
 <div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <form action="/category/" method="POST">
+      <form action="{% url 'category' %}" method="POST">
         {% csrf_token %}
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="categoryModalLabel">Add Category</h1>

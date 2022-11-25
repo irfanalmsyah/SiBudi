@@ -5,7 +5,7 @@
     {% include 'includes/navbar.html' with categories='active' %}
     <div class="container my-5">
         {% for category in categories %}
-            <form action="/category/" method="POST">
+            <form action="{% url 'category' %}" method="POST">
                 {% csrf_token %}
                 <div class="row justify-content-center mb-3">
                     <div class="col-3">
@@ -19,7 +19,7 @@
                 </div>
             </form>
         {% endfor %}
-        <form action="/category/" method="POST">
+        <form action="{% url 'category' %}" method="POST">
             {% csrf_token %}
             <div class="row justify-content-center mb-3">
                 <div class="col-3">

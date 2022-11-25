@@ -1,7 +1,7 @@
 <div class="modal fade" id="walletModal" tabindex="-1" aria-labelledby="walletModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <form action="/wallet/" method="POST">
+      <form action="{% url 'wallet' %}" method="POST">
         {% csrf_token %}
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="categoryModalLabel">Add Wallet</h1>
