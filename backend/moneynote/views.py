@@ -64,8 +64,16 @@ def loginview(request):
                 context = {'message': 'Username atau password salah'}
                 return render(request, 'login.html', context)
         else:
-            return render(request, 'login.html')
-
+            try:
+                request.META.get('HTTP_REFERER')
+                if 'setting' in request.META.get('HTTP_REFERER'):
+                    context = {'message': 'Please login with your new password'}
+                    return render(request, 'login.html', context)
+                else:
+                    return render(request, 'login.html')
+            except:
+                return render(request, 'login.html')
+        
 
 def logoutview(request):
     logout(request)
@@ -79,7 +87,7 @@ def setting(request):
         if form.is_valid():
             form.save()
             context = {'message': 'Password has been changed'}
-            return render(request, 'setting.html', context)
+            return redirect('login')
         else:
             message = ''
             formerr = form.errors.as_data()
