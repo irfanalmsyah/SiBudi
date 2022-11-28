@@ -49,7 +49,7 @@ cp .env.example .env
 ```bash
 docker-compose up
 ```
-> server akan berjalan di `http://localhost:44444`
+> server akan berjalan di `http://localhost`
 </details>
 <details>
     <summary>Tanpa Docker</summary>
