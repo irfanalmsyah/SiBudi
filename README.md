@@ -1,5 +1,5 @@
 # SiBudi (Sistem Buku Keuangan Digital)
-![Website](https://img.shields.io/website?url=http%3A%2F%2F34.101.175.204%3A44444%2F)
+![Website](https://img.shields.io/website?url=http%3A%2F%2F34.101.175.204)
 ![](https://img.shields.io/badge/Django-092E20?style=flat&logo=django&logoColor=white)
 ![](https://img.shields.io/badge/Bootstrap-563D7C?style=flat&&logo=bootstrap&logoColor=white)
 ![](https://img.shields.io/badge/PostgreSQL-316192?style=flat&&logo=postgresql&logoColor=white)
