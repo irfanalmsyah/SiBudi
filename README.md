@@ -20,10 +20,10 @@
 - [Tech Stack](#tech-stack)
 
 # Entity Relationship Diagram
-![ERD](static/entityrelationaldiagram.png)
+![ERD](backend/moneynote/static/entityrelationaldiagram.png)
 
 # Schematic Diagram
-![Schematic Diagram](static/schematicdiagram.png)
+![Schematic Diagram](backend/moneynote/static/schematicdiagram.png)
 
 # Instalasi
 <details>
