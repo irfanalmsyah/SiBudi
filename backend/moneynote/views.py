@@ -8,18 +8,20 @@ from django.http import Http404
 from django.utils.datastructures import MultiValueDictKeyError
 
 
-@login_required
-def index(request):
-    context = {
-        'incomes': Transaction.objects.filter(user=request.user, transaction_nominal__gt=0).order_by('-transaction_date'),
-        'expenses': Transaction.objects.filter(user=request.user, transaction_nominal__lt=0).order_by('-transaction_date'),
-        'categories': Category.objects.filter(user=request.user),
-        'wallets': Wallet.objects.filter(user=request.user),
-        'saldo': Wallet.objects.filter(user=request.user).aggregate(total=Sum('wallet_saldo'))['total'],
-        'shoppinglists': ShoppingList.objects.filter(user=request.user)
-    }
-    return render(request, 'index.html', context)
 
+def index(request):
+    if request.user.is_authenticated:
+        context = {
+            'incomes': Transaction.objects.filter(user=request.user, transaction_nominal__gt=0).order_by('-transaction_date'),
+            'expenses': Transaction.objects.filter(user=request.user, transaction_nominal__lt=0).order_by('-transaction_date'),
+            'categories': Category.objects.filter(user=request.user),
+            'wallets': Wallet.objects.filter(user=request.user),
+            'saldo': Wallet.objects.filter(user=request.user).aggregate(total=Sum('wallet_saldo'))['total'],
+            'shoppinglists': ShoppingList.objects.filter(user=request.user)
+        }
+        return render(request, 'index.html', context)
+    else:
+        return render(request, 'landing.html')
 
 def registerview(request):
     if request.user.is_authenticated:

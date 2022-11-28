@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% block title %}Register{% endblock title %}Register
 {% block content %}
-  {% include "includes/navbarlog.html" with page="Login" %}
+  {% include "includes/navbarlog.html" with page="login" %}
   <!-- content -->
-  <div class="container-md my-5 ">
+  <div class="container-md">
     <div class="container">
-        <div class="row align-items-center justify-content-center my-5">
+        <div class="row align-items-center justify-content-center mb-3">
             <div class="col-6 text-center shadow-lg p-3 mb-5 bg-body rounded my-5">
                 <form action="{% url 'register' %}" method="POST">
                     {% csrf_token %}

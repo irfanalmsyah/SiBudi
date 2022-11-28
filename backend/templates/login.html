@@ -1,27 +1,24 @@
 {% extends 'base.html' %}
-{% block title %}Login{% endblock title %}
-
+{% block title %}Login{% endblock title %}Login
 {% block content %}
   {% include "includes/navbarlog.html" with page="register" %}
-  <div class="container-md my-3 ">
+  <!-- content -->
+  <div class="container-md ">
     <div class="container">
-        <div class="row align-items-center my-5">
-            <div class="col">
-                something goes Here
-            </div>
-            <div class="col text-center shadow-lg p-3 mb-5 bg-body rounded">
+        <div class="row align-items-center justify-content-center my-3">
+            <div class="col-6 text-center shadow-lg p-3 mb-5 bg-body rounded my-5">
                 <form action="{% url 'login' %}" method="POST">
                     {% csrf_token %}
                     <h1 class="mt-5">Login</h1>
                     <div class="row justify-content-center my-4">
                         <div class="col-8">
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="floatingInput" autocapitalize="none" autocomplete="username" placeholder="Username" name="username" autofocus required>
+                                <input type="text" class="form-control" id="floatingInput" placeholder="Username" name="username" autocomplete="username" autocapitalize="none"  autofocus required>
                                 <label for="floatingInput">Username</label>
                             </div>
-                            <div class="form-floating">
-                                <input type="password" class="form-control" id="floatingPassword" autocomplete="current-password" placeholder="Password" name="password" required>
-                                <label for="floatingPassword">Password</label>
+                            <div class="form-floating mb-3">
+                                <input type="password" class="form-control" id="password" placeholder="Password" name="password" autocomplete="current-password" minlength="8" required >
+                                <label for="password1">Password</label>
                             </div>
                         </div>
                     </div>
@@ -32,9 +29,8 @@
                     </div>
                     <div class="row justify-content-center mb-5">
                         <div class="col-8">
-                            No account? <a href="{% url 'register' %}" class="text-decoration-none fw-bold">Sign Up</a>
-                        </div>
-                        <div class="text-center mt-2">
+                            No account? <a href="{% url 'register' %}" class="text-decoration-none fw-bold">Sign Up</a>                        </div>
+                        <div class="text-center mt-2 ">
                           {{message}}
                         </div>
                     </div>
@@ -43,50 +39,16 @@
         </div>
     </div>
   </div>
-  <section>
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6 order-lg-2">
-                <div class="p-5"><img class="rounded-circle img-fluid" src="assets/img/01.jpg"></div>
-            </div>
-            <div class="col-lg-6 order-lg-1">
-                <div class="p-5">
-                    <h2 class="display-4">For those about to rock...</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-  </section>
-  <section>
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6 order-lg-1">
-                <div class="p-5"><img class="rounded-circle img-fluid" src="assets/img/02.jpg"></div>
-            </div>
-            <div class="col-lg-6 order-lg-2">
-                <div class="p-5">
-                    <h2 class="display-4">We salute you!</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-  </section>
-  <section>
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6 order-lg-2">
-                <div class="p-5"><img class="rounded-circle img-fluid" src="assets/img/03.jpg"></div>
-            </div>
-            <div class="col-lg-6 order-lg-1">
-                <div class="p-5">
-                    <h2 class="display-4">Let there be rock!</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-  </section>
-  {% include "includes/footer.html" %}
+  <script language='javascript' type='text/javascript'>
+    function check(input) {
+        if (input.value != document.getElementById('password1').value) {
+            input.setCustomValidity('Password Must be Matching.');
+        } else {
+            // input is valid -- reset the error message
+            input.setCustomValidity('');
+        }
+    }
+  </script>
+  {% include "includes/footerfixed.html" %}
+
 {% endblock content %}
