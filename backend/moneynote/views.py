@@ -310,7 +310,3 @@ def shoppinglist(request):
             'shoppinglists': ShoppingList.objects.filter(user=request.user),
         }
         return render(request, 'shoppinglist.html', context)
-
-
-
-

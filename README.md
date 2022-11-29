@@ -95,10 +95,7 @@ python3 manage.py runserver
 
 # Tech Stack
 - [Django](https://www.djangoproject.com/)
+- [NGINX](https://www.nginx.com/)
 - [Bootstrap](https://getbootstrap.com/)
 - [PostgreSQL](https://www.postgresql.org/)
 - [SQLite](https://www.sqlite.org/index.html)
-
-
-
-
