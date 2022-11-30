@@ -8,7 +8,6 @@ from django.http import Http404
 from django.utils.datastructures import MultiValueDictKeyError
 
 
-
 def index(request):
     if request.user.is_authenticated:
         context = {
@@ -223,10 +222,8 @@ def category(request):
             category.save()
         elif request.POST['method'] == 'delete':
             category = Category.objects.get(category_id=request.POST['category_id'], user_id=request.user.id)
-            transaction = Transaction.objects.filter(category=category)
-            for i in transaction:
-                i.category = None
-                i.save()
+            Transaction.objects.filter(category=category).update(category=None)
+            ShoppingList.objects.filter(category=category).update(category=None)
             category.delete()
         elif request.POST['method'] == 'update':
             category = Category.objects.get(category_id=request.POST['category_id'], user_id=request.user.id)
