@@ -35,9 +35,11 @@
                         <div class="col-8">
                             Have an account? <a href="{% url 'login' %}" class="text-decoration-none fw-bold">Login</a>
                         </div>
-                        <div class="text-center mt-2 ">
-                          {{message}}
+                        {% if message %}
+                        <div class="text-center mt-2 alert alert-danger col-8">
+                            {{message}}
                         </div>
+                        {% endif %}
                     </div>
                 </form>
             </div>
