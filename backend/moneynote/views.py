@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from .models import Transaction, Category, Wallet, ShoppingList
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -65,14 +66,13 @@ def loginview(request):
                 context = {'message': 'Invalid username or password'}
                 return render(request, 'login.html', context)
         else:
-            try:
-                request.META.get('HTTP_REFERER')
-                if 'setting' in request.META.get('HTTP_REFERER'):
-                    context = {'message': 'Please login with your new password'}
-                    return render(request, 'login.html', context)
-                else:
-                    return render(request, 'login.html')
-            except:
+            if request.GET.get('delete'):
+                context = {'message': 'Account deleted'}
+                return render(request, 'login.html', context)
+            elif request.GET.get('password'):
+                context = {'message': 'Password changed'}
+                return render(request, 'login.html', context)
+            else:
                 return render(request, 'login.html')
         
 
@@ -88,8 +88,7 @@ def setting(request):
             form = PasswordChangeForm(request.user, request.POST)
             if form.is_valid():
                 form.save()
-                context = {'message': 'Password has been changed'}
-                return redirect('login')
+                return redirect(reverse('login') + '?password=1')
             else:
                 message = ''
                 formerr = form.errors.as_data()
@@ -105,7 +104,7 @@ def setting(request):
             user = authenticate(request, username=username, password=password)
             if user:
                 user.delete()
-                return redirect('login')
+                return redirect(reverse('login') + '?delete=1')
             else:
                 context = {'message': 'Invalid password'}
                 return render(request, 'setting.html', context)
