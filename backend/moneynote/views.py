@@ -62,7 +62,7 @@ def loginview(request):
                 login(request, user)
                 return redirect('index')
             else:
-                context = {'message': 'Username atau password salah'}
+                context = {'message': 'Invalid username or password'}
                 return render(request, 'login.html', context)
         else:
             try:
@@ -84,19 +84,31 @@ def logoutview(request):
 @login_required
 def setting(request):
     if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
-        if form.is_valid():
-            form.save()
-            context = {'message': 'Password has been changed'}
-            return redirect('login')
-        else:
-            message = ''
-            formerr = form.errors.as_data()
-            for i in formerr:
-                for j in formerr[i]:
-                    message += j.messages[0] + ' '
-            context = {'message': message}
-            return render(request, 'setting.html', context)
+        if request.POST['method'] == 'change_password':
+            form = PasswordChangeForm(request.user, request.POST)
+            if form.is_valid():
+                form.save()
+                context = {'message': 'Password has been changed'}
+                return redirect('login')
+            else:
+                message = ''
+                formerr = form.errors.as_data()
+                for i in formerr:
+                    for j in formerr[i]:
+                        message += j.messages[0] + ' '
+                context = {'message': message}
+                return render(request, 'setting.html', context)
+        elif request.POST['method'] == 'delete_account':
+            print('delete account')
+            username = request.user.username
+            password = request.POST['password']
+            user = authenticate(request, username=username, password=password)
+            if user:
+                user.delete()
+                return redirect('login')
+            else:
+                context = {'message': 'Invalid password'}
+                return render(request, 'setting.html', context)
     else:
         return render(request, 'setting.html')
 

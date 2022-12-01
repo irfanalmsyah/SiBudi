@@ -1,0 +1,24 @@
+<div class="modal fade" id="deleteaccountModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <form action="{% url 'setting' %}" method="POST">
+          {% csrf_token %}
+            <div class="modal-body">
+                <div class="row">
+                    <div class="alert alert-danger">
+                        Warning: This action is irreversible. All your data will be deleted.
+                    </div>
+                </div>
+              <div class="row mb-3">
+                  <div class="col-6">
+                      <input type="password" class="form-control" name="password" placeholder="Password" required>
+                  </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-danger" name="method" value="delete_account">Delete Your Account</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>

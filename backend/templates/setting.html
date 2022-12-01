@@ -2,6 +2,7 @@
 {% block title %}Setting{% endblock title %}
 {% block content %}
   {% include "includes/navbar.html" %}
+  {% include "includes/modals/deleteaccount.html" %}
   <!-- content -->
   <div class="container-md my-5 ">
     <div class="container">
@@ -28,14 +29,17 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-8">
-                            <button type="submit" class="btn btn-primary w-100 mb-3">Save</button>
+                            <button type="submit" class="btn btn-primary w-100 mb-3" name="method" value="change_password">Save</button>
+                            <button type="button" class="btn btn-outline-danger w-100 mb-3" data-bs-toggle="modal" data-bs-target="#deleteaccountModal">Delete Account</button>
                         </div>
                     </div>
-                    <div class="row justify-content-center mb-5">
-                        <div class="text-center mt-2 ">
-                          {{message}}
+                    {% if message %}
+                        <div class="row justify-content-center mb-5">
+                            <div class="text-center mt-2 alert alert-danger col-8">
+                            {{message}}
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                 </form>
             </div>
         </div>
