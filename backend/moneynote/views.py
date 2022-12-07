@@ -11,17 +11,28 @@ from django.utils.datastructures import MultiValueDictKeyError
 
 def index(request):
     if request.user.is_authenticated:
+        # Retrieve transactions, categories, wallets, and shopping lists for the current user
+        transactions = Transaction.objects.filter(user=request.user).order_by('-transaction_date')
+        incomes = transactions.filter(transaction_nominal__gt=0)
+        expenses = transactions.filter(transaction_nominal__lt=0)
+        categories = Category.objects.filter(user=request.user)
+        wallets = Wallet.objects.filter(user=request.user)
+        shopping_lists = ShoppingList.objects.filter(user=request.user)
+        # Calculate the total wallet balance
+        saldo = wallets.aggregate(total=Sum('wallet_saldo'))['total']
+        # Pass the data to the template as a context
         context = {
-            'incomes': Transaction.objects.filter(user=request.user, transaction_nominal__gt=0).order_by('-transaction_date'),
-            'expenses': Transaction.objects.filter(user=request.user, transaction_nominal__lt=0).order_by('-transaction_date'),
-            'categories': Category.objects.filter(user=request.user),
-            'wallets': Wallet.objects.filter(user=request.user),
-            'saldo': Wallet.objects.filter(user=request.user).aggregate(total=Sum('wallet_saldo'))['total'],
-            'shoppinglists': ShoppingList.objects.filter(user=request.user)
+            'incomes': incomes,
+            'expenses': expenses,
+            'categories': categories,
+            'wallets': wallets,
+            'saldo': saldo,
+            'shoppinglists': shopping_lists,
         }
         return render(request, 'index.html', context)
     else:
         return render(request, 'landing.html')
+
 
 def registerview(request):
     if request.user.is_authenticated:
@@ -30,21 +41,22 @@ def registerview(request):
         if request.method == 'POST':
             form = UserCreationForm(request.POST)
             if form.is_valid():
-                form.save()
-                user = authenticate(request, username=form.cleaned_data['username'], password=form.cleaned_data['password1']) 
+                # Create and save a new user
+                user = form.save()
+                # Create a new wallet for the user with a default name and balance of 0
+                Wallet.objects.create(
+                    user=user,
+                    wallet_name='Cash',
+                    wallet_saldo=0,
+                )
+                # Authenticate and log in the user
                 login(request, user)
-                wallet = Wallet()
-                wallet.user_id = user.id
-                wallet.wallet_name = 'Cash'
-                wallet.wallet_saldo = 0
-                wallet.save()
                 return redirect('index')
             else:
+                # Extract any error messages from the form and pass them to the template
                 message = ''
-                formerr = form.errors.as_data()
-                for i in formerr:
-                    for j in formerr[i]:
-                        message += j.messages[0] + ' '
+                for error in form.errors.values():
+                    message += error[0] + ' '
                 context = {'message': message}
                 return render(request, 'register.html', context)
         else:
@@ -63,21 +75,27 @@ def loginview(request):
                 login(request, user)
                 return redirect('index')
             else:
-                context = {'message': 'Invalid username or password'}
+                context = {'message': 'Invalid username or password.'}
                 return render(request, 'login.html', context)
         else:
-            if request.GET.get('delete'):
-                context = {'message': 'Account deleted'}
-                return render(request, 'login.html', context)
-            elif request.GET.get('password'):
-                context = {'message': 'Password changed'}
-                return render(request, 'login.html', context)
+            # Check for special query string parameters in the request URL
+            # and set the corresponding message to display to the user
+            if 'delete' in request.GET:
+                message = 'Account deleted.'
+            elif 'password' in request.GET:
+                message = 'Password changed.'
             else:
-                return render(request, 'login.html')
-        
+                message = ''
+            context = {'message': message}
+            return render(request, 'login.html', context)
+
 
 def logoutview(request):
-    logout(request)
+    # Check if the user is authenticated before logging them out
+    if request.user.is_authenticated:
+        logout(request)
+    # Redirect the user to the login page regardless of whether they were
+    # logged in or not
     return redirect('login')
 
 
@@ -90,15 +108,13 @@ def setting(request):
                 form.save()
                 return redirect(reverse('login') + '?password=1')
             else:
+                # Extract any error messages from the form and pass them to the template
                 message = ''
-                formerr = form.errors.as_data()
-                for i in formerr:
-                    for j in formerr[i]:
-                        message += j.messages[0] + ' '
+                for error in form.errors.values():
+                    message += error[0] + ' '
                 context = {'message': message}
                 return render(request, 'setting.html', context)
         elif request.POST['method'] == 'delete_account':
-            print('delete account')
             username = request.user.username
             password = request.POST['password']
             user = authenticate(request, username=username, password=password)
@@ -122,7 +138,8 @@ def transaction(request):
             nominal = int(request.POST['nominal'])
         else:
             nominal = int(request.POST['nominal']) * -1
-        Transaction.objects.create(
+        # Create a new Transaction object and save it to the database
+        transaction = Transaction(
             user=request.user,
             transaction_note=note,
             transaction_nominal=nominal,
@@ -130,18 +147,28 @@ def transaction(request):
             category_id=category,
             wallet_id=wallet,
         )
+        transaction.save()
+        # Update the wallet balance
         wallet = Wallet.objects.get(wallet_id=wallet)
         wallet.wallet_saldo += nominal
         wallet.save()
         return redirect(request.META.get('HTTP_REFERER'))
     else:
+        # Retrieve transactions, categories, and wallets for the current user
+        transactions = Transaction.objects.filter(user=request.user).order_by('-transaction_date')
+        incomes = transactions.filter(transaction_nominal__gt=0)
+        expenses = transactions.filter(transaction_nominal__lt=0)
+        categories = Category.objects.filter(user=request.user)
+        wallets = Wallet.objects.filter(user=request.user)
+        # Pass the data to the template as a context
         context = {
-            'incomes': Transaction.objects.filter(user=request.user, transaction_nominal__gt=0).order_by('-transaction_date'),
-            'expenses': Transaction.objects.filter(user=request.user, transaction_nominal__lt=0).order_by('-transaction_date'),
-            'categories': Category.objects.filter(user=request.user),
-            'wallets': Wallet.objects.filter(user=request.user),
+            'incomes': incomes,
+            'expenses': expenses,
+            'categories': categories,
+            'wallets': wallets,
         }
         return render(request, 'transaction.html', context)
+
 
 
 @login_required
